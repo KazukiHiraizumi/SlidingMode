@@ -6,10 +6,7 @@
 	1. Technolgy Description
 <img src="fig1.png">  
 <img src="https://latex.codecogs.com/gif.latex?\dot{\omega}=\frac{R}{J}f-\frac{1}{J}u" /><br clear="all">  
-dollor  
-$\dot{\omega}=\frac{R}{J}f-\frac{1}{J}u$
-dollordollor  
-$$\dot{\omega}=\frac{R}{J}f-\frac{1}{J}u$$
+
 	1. Code review
 ~~~
 	if(wh==0){
