@@ -2,13 +2,21 @@
 
 ## function Brk_CalcTotalBrk(void){
 
-1. Observer
-	1. Technolgy Description
-<img src="fig1.png">  
-<img src="https://latex.codecogs.com/gif.latex?\dot{\omega}=\frac{R}{J}f-\frac{1}{J}u" /><br clear="all">  
+1. オブザーバ/張力推定器
+	1. 技術解説
+<img src="fig1.png" style="float:right;" >  
+<img src="https://latex.codecogs.com/gif.latex?\dot{\omega}=\frac{R}{J}f-\frac{1}{J}u" />  
+<img src="https://latex.codecogs.com/gif.latex?\dot{f}=0" />  
+<img src="https://latex.codecogs.com/gif.latex?\dot{\hat{\omega}}=-2\lambda(\hat{\omega}-\omega)+\frac{R}{J}f-\frac{1}{J}u" />  
+<img src="https://latex.codecogs.com/gif.latex?\dot{\hat{f}}=-\lambda^2\frac{J}{R}(\hat{\omega}-\omega)" />  
+<img src="https://latex.codecogs.com/gif.latex?\beta=\frac{R}{J}f" />  
+<img src="https://latex.codecogs.com/gif.latex?\frac{1}{J}u=c\cdot\omega\cdot duty" />  
+<img src="https://latex.codecogs.com/gif.latex?\dot{\hat{\omega}}=-2\lambda(\hat{\omega}-\omega)+\beta-c\cdot\omega\cdot duty" />  
+<img src="https://latex.codecogs.com/gif.latex?\dot{\hat{\beta}}=-\lambda^2(\hat{\omega}-\omega)" />  
 
-	1. Code review
+	1. コード解説
 ~~~
+//observer
 	if(wh==0){
 		wh=(pi2/dt)<<4;
 		wrps=wh>>11;
@@ -27,7 +35,36 @@
 		bh=bh+(dbh=(werr*h2)>>4);
 	}
 ~~~
+1. スライディングモード制御
+	1. 技術解説
+<img src="fig2.png" style="float:right;" >  
+
+	1. コード解説
+~~~
+//sliding mode function
+	if(hflag){
+		u16 D=hflag<3? PRM_ReadData(M_PRM_ID_UNQ_UD6):PRM_ReadData(M_PRM_ID_UNQ_UD5);
+		s32 ref=(s32)(hflag<3? PRM_ReadData(M_PRM_ID_UNQ_UD4):readTbl(M_PRM_ID_UNQ_UD8,t10ms))<<bhpnt;
+		s32 sig=((bh-ref)>>9)*D+(dbh<<11)/dt;
+		switch(hflag){
+		case 1:
+			hvalue=0;
+			if(tmsec<20) break;
+			hflag=2;
+			break;
+		case 2:
+		case 3:
+			hvalue=0;
+			if(sig>0) break;
+			hvalue=1;
+			hflag=3;
+			break;
+		}
+	}
+~~~
+
 1. Whole code
+
 ~~~
 #include <cmn.h>
 #include <prm.h>
