@@ -1,5 +1,7 @@
 # SlidingMode
 
+$\dot{\omega}=\frac{R}{J}f-\frac{1}{J}u$
+
 ## function Brk_CalcTotalBrk(void){
 
 1. オブザーバ/張力推定器
@@ -63,9 +65,7 @@
 	}
 ~~~
 
-1. Whole code
-
-~~~
+<!--
 #include <cmn.h>
 #include <prm.h>
 #include <comm.h>
@@ -300,4 +300,4 @@ u8 Brk_GetFlag(void){
 	}
 	return 0;
 }
-~~~
+-->
