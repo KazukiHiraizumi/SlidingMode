@@ -1,4 +1,5 @@
 # SlidingMode
+<!--
 $$
 \dot{\omega}=\frac{R}{J}f-\frac{1}{J}u
 $$
@@ -106,7 +107,6 @@ b2pc はゼロ点補正部(ゼロ点のズレを修正)での使用のためROM�
 	}
 ~~~
 
-<!--
 #include <cmn.h>
 #include <prm.h>
 #include <comm.h>
